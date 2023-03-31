@@ -1,3 +1,4 @@
+##learning how to set up kivy app
 import kivy
 kivy.require('2.1.0') # replace with your current kivy version !
 
