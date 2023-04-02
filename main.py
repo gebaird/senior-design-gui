@@ -3,7 +3,7 @@ Created on Thu Mar 30 21:03:58 2023
 
 @author: Grace Baird
 
-Last update: 3/31/2023 4:38 PM
+Last update: 3/31/2023 8:38 PM
 
 """
 
@@ -27,9 +27,9 @@ def plot_main():  # creating a basic plot on the first page
     canvas.get_tk_widget().pack()
     main_graph = FigureCanvasTkAgg()
 
-def indiv_plot(screen, offsetx, offsety):  # creating a basic plot on the first page
+def new_plot(screen, offsetx, offsety):  # creating a basic plot on the first page
     # will update with time-average after figuring that out
-    fig = Figure(figsize=(2, 2), dpi=100)
+    fig = Figure(figsize=(2, 2), dpi=100, facecolor= 'lightgreen')
     y = range(10)
     plot1 = fig.add_subplot(111)
     plot1.plot(y)
@@ -37,9 +37,17 @@ def indiv_plot(screen, offsetx, offsety):  # creating a basic plot on the first 
     canvas = FigureCanvasTkAgg(fig, master=screen)
     canvas.draw()
     canvas.get_tk_widget().place(relheight = 0.3, relwidth = 0.3, relx = 0.3* offsetx+0.05,
-                                 rely = 0.3*offsety + 0.03*(offsety+1))
+                              rely = 0.3*offsety + 0.03*(offsety+1))
 
-    main_graph = FigureCanvasTkAgg()
+def replot(offsetx, offsety):
+    fig = Figure(figsize=(2, 2), dpi=100, facecolor='tomato')
+    y = range(10)
+    plot1 = fig.add_subplot(111)
+    plot1.plot(y)
+    canvas = FigureCanvasTkAgg(fig, master=indiv_readouts)
+    canvas.draw()
+    canvas.get_tk_widget().place(relheight=0.3, relwidth=0.3, relx=0.3 * offsetx + 0.05,
+                                 rely=0.3 * offsety + 0.03 * (offsety + 1))
 
 def graphButtons(master):
     addButton = Button(master, text = "Add", heigh = 1, width = 5, state = DISABLED ) #command = lambda: addValue()
@@ -48,13 +56,15 @@ def graphButtons(master):
     removeButton.place(relx = 0.15, rely = 0.33)
 
 
-def addValue(addButton, removeButton):
+def addValue(addButton, removeButton, xoff, yoff):
     removeButton['state'] = NORMAL
     addButton['state'] = DISABLED
+    newreadout1 = new_plot(indiv_readouts, xoff, yoff)
 
-def removeValue(addButton, removeButton):
+def removeValue(addButton, removeButton, xoff, yoff):
     removeButton['state'] = DISABLED
     addButton['state'] = NORMAL
+    newreadout1 = replot(xoff,yoff)
 
 
 def openIndividualReadouts():
@@ -104,55 +114,55 @@ mainMenu_button = Button(indiv_readouts, text="Main Menu",
 
 mainMenu_button.pack(anchor="c")
 
-readout1 = indiv_plot(indiv_readouts, 0, 0)
+readout1 = new_plot(indiv_readouts, 0, 0)
 addButton1 = Button(indiv_readouts, text="Add", heigh=1, width=5, state=DISABLED,
-                    command = lambda: addValue(addButton1, removeButton1))
+                    command = lambda: addValue(addButton1, removeButton1, 0,0))
 addButton1.place(relx=0.10, rely=0.33)
 removeButton1 = Button(indiv_readouts, text="Remove", height=1, width=10,
-                       command = lambda: removeValue(addButton1, removeButton1))
+                       command = lambda: removeValue(addButton1, removeButton1, 0, 0))
 removeButton1.place(relx=0.15, rely=0.33)
 
 
-readout2 = indiv_plot(indiv_readouts, 0, 1.5)
+readout2 = new_plot(indiv_readouts, 0, 1.5)
 addButton2 = Button(indiv_readouts, text="Add", heigh=1, width=5, state=DISABLED,
-                   command = lambda: addValue(addButton2, removeButton2))
+                   command = lambda: addValue(addButton2, removeButton2, 0, 1.5))
 addButton2.place(relx=0.10, rely=0.825)
 removeButton2 = Button(indiv_readouts, text="Remove", height=1, width=10,
-                       command = lambda: removeValue(addButton2, removeButton2))
+                       command = lambda: removeValue(addButton2, removeButton2, 0, 1.5))
 removeButton2.place(relx=0.15, rely=0.825)
 
 
-readout3 = indiv_plot(indiv_readouts, 1,0)
+readout3 = new_plot(indiv_readouts, 1, 0)
 addButton3 =Button(indiv_readouts, text="Add", heigh=1, width=5, state=DISABLED,
-                   command = lambda: addValue(addButton3, removeButton3))
+                   command = lambda: addValue(addButton3, removeButton3, 1, 0))
 addButton3.place(relx=0.40, rely=0.33)
 removeButton3 = Button(indiv_readouts, text="Remove", height=1, width=10,
-                       command = lambda: removeValue(addButton3, removeButton3))
+                       command = lambda: removeValue(addButton3, removeButton3,1, 0))
 removeButton3.place(relx=0.45, rely=0.33)
 
 
-readout4 = indiv_plot(indiv_readouts, 1, 1.5)
+readout4 = new_plot(indiv_readouts, 1, 1.5)
 addButton4 = Button(indiv_readouts, text="Add", heigh=1, width=5, state=DISABLED,
-                   command = lambda: addValue(addButton4, removeButton4))
+                   command = lambda: addValue(addButton4, removeButton4, 1, 1.5))
 addButton4.place(relx=0.40, rely=0.825)
 removeButton4 = Button(indiv_readouts, text="Remove", height=1, width=10,
-                       command = lambda: removeValue(addButton4, removeButton4))
+                       command = lambda: removeValue(addButton4, removeButton4, 1, 1.5))
 removeButton4.place(relx=0.45, rely=0.825)
 
-readout5 = indiv_plot(indiv_readouts, 2, 0)
+readout5 = new_plot(indiv_readouts, 2, 0)
 addButton5 = Button(indiv_readouts, text="Add", heigh=1, width=5, state=DISABLED,
-                   command = lambda: addValue(addButton5, removeButton5))
+                   command = lambda: addValue(addButton5, removeButton5, 2, 0))
 addButton5.place(relx=0.70, rely=0.33)
 removeButton5 = Button(indiv_readouts, text="Remove", height=1, width=10,
-                       command = lambda: removeValue(addButton5, removeButton5))
+                       command = lambda: removeValue(addButton5, removeButton5, 2, 0))
 removeButton5.place(relx=0.75, rely=0.33)
 
 
-readout6 = indiv_plot(indiv_readouts, 2, 1.5)
+readout6 = new_plot(indiv_readouts, 2, 1.5)
 addButton6 = Button(indiv_readouts, text="Add", heigh=1, width=5, state=DISABLED,
-                   command = lambda: addValue(addButton6, removeButton6))
+                   command = lambda: addValue(addButton6, removeButton6, 2, 1.5))
 addButton6.place(relx=0.70, rely=0.825)
 removeButton6 = Button(indiv_readouts, text="Remove", height=1, width=10,
-                       command = lambda: removeValue(addButton6, removeButton6))
+                       command = lambda: removeValue(addButton6, removeButton6, 2, 1.5))
 removeButton6.place(relx=0.75, rely=0.825)
 mainloop()
